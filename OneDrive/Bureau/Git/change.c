@@ -23,6 +23,6 @@ int main (){
     return 0;
 }
 int main (){
-    int array[4] = {12 , 4, -5, 14};
-   negative(&array, 5); 
+    int array1[4] = {12 , 4, -5, 14};
+   negative(&array1, 5); 
 }
