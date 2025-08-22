@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Birthday Invitation</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f8ff;
+            position: relative;
+            overflow: hidden;
+        }
+        .no {
+            padding: 15px 34px;
+            font-size: 20px;
+            color: white;
+            background-color: hsla(337, 85%, 64%, 0.71);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            margin-top: 1px;
+        }
+        .no:hover {
+            transform: rotate(360deg);
+            transition: transform 0.5s;
+        }
+
+        .yes {
+            padding: 15px 30px;
+            font-size: 20px;
+            color: white;
+            background-color: hsla(337, 85%, 64%, 0.71);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 20px;
+            margin-top: 200px;
+            margin-right: 600px;
+        }
+
+        @keyframes wobble {
+            0% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            50% { transform: rotate(-5deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .yes:hover {
+            animation: wobble 0.5s;
+        }
+
+        .question {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            font-size: 80px;
+            font-weight: bolder;
+            display: grid;
+            place-items: center;
+            margin-bottom: 150px;
+            margin-left: 40px;
+        }
+
+        /* Particle explosion */
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background-color: rgba(105, 5, 87, 0.755);
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            from {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            to {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body style="background-color: rgb(237, 164, 176);">
+    <p class="question">Are you coming to my birthday?</p>
+    <button class="no">NO</button>
+    <button class="yes">YES</button>
+
+    <script>
+        const no = document.querySelector('.no'); // Select NO button by class
+        const yes = document.querySelector('.yes'); // Select YES button by class
+        
+        function recalculerLeTruc() {
+            let mesures = document.getElementsByClassName("yes")[0].getBoundingClientRect();
+            no.style["top"] = mesures["top"]-8+"px";
+            no.style["left"] = (mesures["right"]+20)+"px";
+        }
+        recalculerLeTruc();
+        window.addEventListener('resize', recalculerLeTruc);
+
+        
+        no.addEventListener('click', () => {
+           
+            const x = Math.random() * (window.innerWidth - no.offsetWidth);
+            const y = Math.random() * (window.innerHeight - no.offsetHeight);
+            
+            
+            no.style.left = `${x}px`;
+            no.style.top = `${y}px`;
+        });
+
+        
+        yes.addEventListener('click', () => {
+            for (let i = 0; i < 50; i++) {  
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                document.body.appendChild(particle);
+
+                
+                const angle = Math.random() * 360;
+                const distance = Math.random() * 100 + 50; 
+                
+            
+                particle.style.setProperty('--x', `${Math.cos(angle) * distance}px`);
+                particle.style.setProperty('--y', `${Math.sin(angle) * distance}px`);
+                
+                
+                const yesRect = yes.getBoundingClientRect();
+                particle.style.left = `${yesRect.left + yes.offsetWidth / 2}px`;
+                particle.style.top = `${yesRect.top + yes.offsetHeight / 2}px`;
+
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
+
+
+
